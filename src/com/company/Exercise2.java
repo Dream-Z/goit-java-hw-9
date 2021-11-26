@@ -1,24 +1,23 @@
 package com.company;
 
-import java.io.*;
-import java.util.ArrayList;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class Exercise2 {
     public void run() {
         ArrayList<Object> people = new ArrayList<>();
-        JSONArray company = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("resources/user.txt"))) {
             String line = bufferedReader.readLine();
 
             int counter = 0;
             System.out.println("\nExercise2:");
-            while (line  != null) {
-                if (counter > 0 ) {
-//                    System.out.println(counter + ": " + line);
-                    String [] obj = line.split(" ");
+            while (line != null) {
+                if (counter > 0) {
+                    String[] obj = line.split(" ");
                     String name = obj[0];
                     String age = obj[1];
                     jsonObject.put("name", name);
@@ -33,10 +32,10 @@ public class Exercise2 {
             System.out.format("There is exception: %s", e);
         }
 
-        try(OutputStreamWriter oos = new OutputStreamWriter(new FileOutputStream("resources/users.json"), "UTF-8")) {
+        try (OutputStreamWriter oos = new OutputStreamWriter(new FileOutputStream("resources/users.json"), StandardCharsets.UTF_8)) {
             oos.append(people.toString());
             System.out.println("File has been written");
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }

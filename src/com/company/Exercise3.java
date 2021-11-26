@@ -5,14 +5,30 @@ import java.io.FileReader;
 import java.util.*;
 
 public class Exercise3 {
+    public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> unsortedHashMap) {
+        List<Map.Entry<String, Integer>> list =
+                new LinkedList<Map.Entry<String, Integer>>(unsortedHashMap.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2) {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+        HashMap<String, Integer> sortedHashMap = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> sortedWordElement : list) {
+            sortedHashMap.put(sortedWordElement.getKey(), sortedWordElement.getValue());
+        }
+        return sortedHashMap;
+    }
+
     public void run() {
         HashMap<String, Integer> wordsNumber = new HashMap<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("resources/words.txt"))) {
             String line = bufferedReader.readLine();
 
-            int counter = 0;
             while (line != null) {
-//                    System.out.println(counter + ": " + line);
                 String[] words = line.split(" ");
                 for (String word : words) {
                     boolean exist = wordsNumber.containsKey(word);
@@ -23,7 +39,6 @@ public class Exercise3 {
                     }
                 }
                 line = bufferedReader.readLine();
-                counter++;
             }
         } catch (Exception e) {
             System.out.format("There is exception: %s", e);
@@ -34,29 +49,6 @@ public class Exercise3 {
         for (Map.Entry<String, Integer> entry : wordsNumberSorted.entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
         }
-    }
-
-    public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
-    {
-        // Create a list from elements of HashMap
-        List<Map.Entry<String, Integer> > list =
-                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
-
-        // Sort the list
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
-            public int compare(Map.Entry<String, Integer> o1,
-                               Map.Entry<String, Integer> o2)
-            {
-                return (o2.getValue()).compareTo(o1.getValue());
-            }
-        });
-
-        // put data from sorted list to hashmap
-        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
-        }
-        return temp;
     }
 }
 
